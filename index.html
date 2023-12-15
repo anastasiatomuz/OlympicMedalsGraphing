@@ -4,10 +4,61 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NASA visualization</title>
-    <script async src="script.js"></script>
+    <title>Graph</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+   
 </head>
 <body>
+    <canvas id="myChart"></canvas>
+    <script async>
+        let allYVals = [39,41,33];
+        async function displayChart(){
+            const ctx = document.getElementById('myChart');
+        
+            new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ["Gold", "Silver", "Bronze"],
+                datasets: [{
+                label: 'Number of medals of each category won by U.S. in Summer 2020 Olympics',
+                data: allYVals,
+                backgroundColor: [
+                "#FFD700",
+                "#BEC2CB",
+                "#CD7F32"
+                ]
+                }]
+            }  
+            });
+        }
+        
+        async function getData() {
+        const response = await fetch("olympic_games.csv");
+        const data = await response.text();
+        const rows = data.split("\n").slice(120, 121);
+        console.log(rows);
+        rows.forEach((elem) => {
+           
+                const row = elem.split(",");
+                allYVals.push(parseInt(row[8]));//add gold medal data
+                allYVals.push(parseInt(row[9]));//add silver medal data
+                allYVals.push(parseInt(row[10]));//add bronze medal data
+                console.log(allYVals);
+                allYVals.forEach(n => console.log(typeof n))
+                
+                });
+        }
+        //end of functions
+        //call the function to test if you see the image on the left in the console
+        displayChart();
+        getData()
+
+  </script>
+
     
+
+  <script async>
+    
+  </script>
 </body>
 </html>
